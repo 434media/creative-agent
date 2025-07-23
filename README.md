@@ -218,18 +218,13 @@ Set all variables in your Vercel project settings:
 
 ## 🆘 Mentorship & Support
 
-As the 434 MEDIA lead developer, I am here to guide you. Don't hesitate to ask questions, seek clarification, or request help if you get stuck. My goal is to help you learn and succeed.
+Don't hesitate to ask questions, seek clarification, or request help if you get stuck.
 
 ## 👥 Team
 
 - **Camille** - Developer
 - **Esther** - Developer  
 - **Jeremiah** - Developer
-- **Jesse** - 434 MEDIA Mentor & Technical Lead
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
