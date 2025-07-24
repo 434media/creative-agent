@@ -18,8 +18,8 @@ export async function POST(req: NextRequest) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        prompt: `Create an event poster with the following details: ${prompt}`,
-        n: 1,
+        prompt: `Create an event poster with the following details, there should not be any text: ${prompt}`,
+        n: 3, //number of images generating
         size: "512x512",
       }),
     })
@@ -33,14 +33,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: data.error.message }, { status: 500 })
     }
 
-    const imageUrl = data?.data?.[0]?.url
-    if (!imageUrl) {
+    const imageUrls = data?.data?.map((img: any) => img.url)
+    if (!imageUrls) {
       return NextResponse.json({ error: "No image URL returned." }, { status: 500 })
     }
 
-    return NextResponse.json({ url: imageUrl })
-
-  } catch (err: any) {
+    return NextResponse.json({ urls: imageUrls })
+} catch (err: any) {
     console.error("Unhandled error:", err)
     return NextResponse.json({ error: err.message || "Server error" }, { status: 500 })
   }
