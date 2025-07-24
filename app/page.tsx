@@ -7,6 +7,8 @@ export default function Home() {
   const [imageUrl, setImageUrl] = useState("")
 
   const handleSubmit = async () => {
+    console.log("Received prompt:", prompt)
+
     const res = await fetch("/api/generate", {
       method: "POST",
       body: JSON.stringify({ prompt }),
