@@ -9,6 +9,8 @@ export default function Home() {
   const [imageUrls, setImageUrls] = useState<string[]>([])
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [posterType, setPosterType] = useState("event");
+
 
   const handleSubmit = async () => {
     setIsLoading(true);
@@ -59,6 +61,24 @@ export default function Home() {
         Create
       </button>
 
+
+    {/*Drop down menu */ }
+      <div className="mt-6 text-left"> 
+  <label className="block mb-1 font-semibold text-sm text-gray-700"> 
+    What brand of poster is this for?
+  </label>
+  <select
+    value={posterType}
+    onChange={(e) => setPosterType(e.target.value)}
+    className="border p-2 rounded w-full"
+  >
+    <option value="event">Vemos Vamos</option>
+    <option value="concert">DEVSA</option>
+    <option value="academic">TEXMEX</option>
+    <option value="political">434Media</option>
+  </select>
+</div>
+
       {isLoading && (
   <div className="mt-4 w-full h-2 bg-gray-300 rounded overflow-hidden">
     <div
@@ -73,19 +93,20 @@ export default function Home() {
     {Array.from({ length: 3 }).map((_, i) => (
       <div
         key={i}
-        className="h-64 bg-gray-300 rounded animate-pulse border"
+        className="h-64 bg-[rgba(233,187,210,0.8)] rounded animate-pulse border"
       >
-        <p className="text-sm text-gray-500 p-2">Placeholder {i + 1}</p>
+        <p className="text-sm text-gray-500 p-2">Let the AI Magic Begin MEhehe</p>
       </div>
     ))}
   </div>
 )}
+      
 
       {imageUrls.length > 0 && (
   <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
     {imageUrls.map((url, index) => (
       <div key={index}>
-        <p className="text-sm text-gray-600">Image {index + 1}</p>
+        <p className="text-sm text-gray-600">Option {index + 1}</p>
         <img
           src={url}
           alt={`Generated AI ${index + 1}`}
