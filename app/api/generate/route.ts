@@ -24,12 +24,17 @@ Use bold serif typography resembling TexGyreThermes. Should be fun themes like a
       stylePrompt: "",
     };
 
+    
+
     const dallePrompt = `
-        Design one, vertical, digital event poster for the brand "${brand.name}".
 
-        Theme: ${prompt}
+    Design a single, flat, digital event poster based on the following brand theme: "${brand.name}".
+    Use clean illustration style, bold visual layout, and balanced composition.
+    Make it look like a final poster design ready to be printed.
 
-        Style guidelines:
+        Also include this theme Theme: ${prompt}
+
+       Make sure to include these Style guidelines:
         ${brand.stylePrompt}
     `;
 
