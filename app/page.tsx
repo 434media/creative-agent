@@ -80,7 +80,7 @@ export default function Home() {
 </div>
 
       {isLoading && (
-  <div className="mt-4 w-full h-2 bg-gray-300 rounded overflow-hidden">
+  <div className="mt-4 w-full h-2 bg-pink-300 rounded overflow-hidden">
     <div
       className="h-full bg-pink-600 transition-all duration-100"
       style={{ width: `${progress}%` }}
