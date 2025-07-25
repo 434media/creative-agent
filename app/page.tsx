@@ -1,103 +1,138 @@
-import Image from "next/image";
+"use client"
+import "nprogress/nprogress.css"
+
+
+import { useState } from "react"
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [prompt, setPrompt] = useState("")
+  const [imageUrls, setImageUrls] = useState<string[]>([])
+  const [progress, setProgress] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [posterType, setPosterType] = useState("event");
+  const [image, setImage] = useState<string | null>(null);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    setImage(null);
+  
+    try {
+      const res = await fetch("/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ prompt, type: posterType, size: "1024x1024" }),
+      });
+  
+      const data = await res.json();
+      setImage(data.urls?.[0] || null);
+    } catch (err) {
+      console.error("Image generation failed:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  
+  
+  
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-pink-300 to-blue-600">
+
+    <main className="p-6 max-w-xl mx-auto text-center text-white">
+      <h1 className="text-3xl font-bold mb-4">434 Media Poster Gen</h1>
+      <input
+        className="border p-2 w-full mb-4 rounded"
+        value={prompt}
+        onChange={(e) => setPrompt(e.target.value)}
+        placeholder="Describe your image..."
+      />
+      <button
+        onClick={handleSubmit}
+        className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+      >
+        Create
+      </button>
+
+
+    {/*Drop down menu */ }
+      <div className="mt-6 text-left"> 
+  <label className="block mb-1 font-semibold text-sm text-white-700"> 
+    What brand of poster is this for?
+  </label>
+  <select
+    value={posterType}
+    onChange={(e) => setPosterType(e.target.value)}
+    className="border p-2 rounded w-full"
+  >
+    <option value="event">Vemos Vamos</option>
+    <option value="concert">DEVSA</option>
+    <option value="academic">TEXMEX</option>
+    <option value="political">434Media</option>
+  </select>
+</div>
+
+      {isLoading && (
+  <div className="mt-4 w-full h-2 bg-pink-300 rounded overflow-hidden">
+    <div
+      className="h-full bg-pink-600 transition-all duration-100"
+      style={{ width: `${progress}%` }}
+    />
+  </div>
+)}
+    <div className="mt-10 flex flex-col items-center justify-center">
+  <div className="w-full max-w-2xl min-h-[512px] border-2 border-dashed border-white rounded flex items-center justify-center bg-white/10">
+    {image ? (
+      <img
+        src={image}
+        alt="Generated poster"
+        className="w-full h-auto rounded shadow-lg"
+        onError={(e) => {
+          (e.target as HTMLImageElement).src = "https://placekitten.com/512/512";
+        }}
+      />
+    ) : (
+      <p className="text-white text-sm opacity-50">Your generated poster will appear here.</p>
+    )}
+  </div>
+
+  {/* Text box below the image or placeholder */}
+  <div className="w-full max-w-2xl mt-6">
+    <label className="block mb-2 text-sm font-medium text-white text-left">
+      Notes or Description:
+    </label>
+    <textarea
+      className="w-full p-3 rounded border bg-white text-black resize-none h-32"
+      placeholder="Add your caption, notes, or poster description here..."
+    />
+  </div>
+</div>
+
+
+      
+
+      {imageUrls.length > 0 && (
+  <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+    {imageUrls.map((url, index) => (
+      <div key={index}>
+        <p className="text-sm text-white-600">Option {index + 1}</p>
+        <img
+          src={url}
+          alt={`Generated AI ${index + 1}`}
+          className="rounded shadow-lg border"
+          onError={(e) => {
+            console.error("Image load failed for:", url);
+            (e.target as HTMLImageElement).src = "https://placekitten.com/400/400"; //fallback if there are no loading images
+          }}
+        />
+      </div>
+    ))}
+  </div>
+)}
+
+      
+    </main>
+
     </div>
-  );
+  )
 }
