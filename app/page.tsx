@@ -9,10 +9,23 @@ export default function Home() {
   const [imageUrls, setImageUrls] = useState<string[]>([])
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [posterType, setPosterType] = useState("event");
+
+
   const [image, setImage] = useState<string | null>(null);
 
+  const posterConfig = {
+    vemosvamos: {
+      label: "Vemos Vamos",
+    },
+    devsa: {
+      label: "DEVSA",
+    }
+  };
+  
+  const brandKeys = Object.keys(posterConfig);
+  const [posterType, setPosterType] = useState(brandKeys[0]); 
 
+   
   const handleSubmit = async () => {
     setIsLoading(true);
     setImage(null);
@@ -21,7 +34,8 @@ export default function Home() {
       const res = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt, type: posterType, size: "1024x1024" }),
+        body: JSON.stringify({ prompt, type: posterType, size: "1024x1792",
+            }),
       });
   
       const data = await res.json();
@@ -56,21 +70,18 @@ export default function Home() {
 
 
     {/*Drop down menu */ }
-      <div className="mt-6 text-left"> 
-  <label className="block mb-1 font-semibold text-sm text-white-700"> 
-    What brand of poster is this for?
-  </label>
-  <select
-    value={posterType}
-    onChange={(e) => setPosterType(e.target.value)}
-    className="border p-2 rounded w-full"
-  >
-    <option value="event">Vemos Vamos</option>
-    <option value="concert">DEVSA</option>
-    <option value="academic">TEXMEX</option>
-    <option value="political">434Media</option>
-  </select>
-</div>
+    <select
+  value={posterType}
+  onChange={(e) => setPosterType(e.target.value)}
+  className="border p-2 rounded w-full"
+>
+  {Object.entries(posterConfig).map(([key, config]) => (
+    <option key={key} value={key}>
+      {config.label}
+    </option>
+  ))}
+</select>
+
 
       {isLoading && (
   <div className="mt-4 w-full h-2 bg-pink-300 rounded overflow-hidden">
