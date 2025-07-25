@@ -10,43 +10,36 @@ export default function Home() {
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [posterType, setPosterType] = useState("event");
+  const [image, setImage] = useState<string | null>(null);
 
 
   const handleSubmit = async () => {
     setIsLoading(true);
-    setProgress(0);
-  
-    //  loading progress
-    const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 95) return prev; // stop at 95% 
-        return prev + 5; // increment by 5% every 100ms this is not acciturate but gives a good visual effect
-      });
-    }, 100);
+    setImage(null);
   
     try {
       const res = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt }),
+        body: JSON.stringify({ prompt, type: posterType, size: "1024x1024" }),
       });
+  
       const data = await res.json();
-      setImageUrls(data.urls || []);
+      setImage(data.urls?.[0] || null);
     } catch (err) {
-      console.error("Error:", err);
+      console.error("Image generation failed:", err);
     } finally {
-      clearInterval(interval);
-      setProgress(100); // force complete
-      setTimeout(() => {
-        setIsLoading(false);
-        setProgress(0); // reset for next run
-      }, 500); // short delay to show full bar before hiding
+      setIsLoading(false);
     }
   };
   
+  
+  
 
   return (
-    <main className="p-6 max-w-xl mx-auto text-center">
+    <div className="min-h-screen bg-gradient-to-br from-pink-300 to-blue-600">
+
+    <main className="p-6 max-w-xl mx-auto text-center text-white">
       <h1 className="text-3xl font-bold mb-4">434 Media Poster Gen</h1>
       <input
         className="border p-2 w-full mb-4 rounded"
@@ -64,7 +57,7 @@ export default function Home() {
 
     {/*Drop down menu */ }
       <div className="mt-6 text-left"> 
-  <label className="block mb-1 font-semibold text-sm text-gray-700"> 
+  <label className="block mb-1 font-semibold text-sm text-white-700"> 
     What brand of poster is this for?
   </label>
   <select
@@ -87,26 +80,42 @@ export default function Home() {
     />
   </div>
 )}
-
-      {imageUrls.length === 0 && (
-  <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
-    {Array.from({ length: 3 }).map((_, i) => (
-      <div
-        key={i}
-        className="h-64 bg-[rgba(233,187,210,0.8)] rounded animate-pulse border"
-      >
-        <p className="text-sm text-gray-500 p-2">Let the AI Magic Begin MEhehe</p>
-      </div>
-    ))}
+    <div className="mt-10 flex flex-col items-center justify-center">
+  <div className="w-full max-w-2xl min-h-[512px] border-2 border-dashed border-white rounded flex items-center justify-center bg-white/10">
+    {image ? (
+      <img
+        src={image}
+        alt="Generated poster"
+        className="w-full h-auto rounded shadow-lg"
+        onError={(e) => {
+          (e.target as HTMLImageElement).src = "https://placekitten.com/512/512";
+        }}
+      />
+    ) : (
+      <p className="text-white text-sm opacity-50">Your generated poster will appear here.</p>
+    )}
   </div>
-)}
+
+  {/* Text box below the image or placeholder */}
+  <div className="w-full max-w-2xl mt-6">
+    <label className="block mb-2 text-sm font-medium text-white text-left">
+      Notes or Description:
+    </label>
+    <textarea
+      className="w-full p-3 rounded border bg-white text-black resize-none h-32"
+      placeholder="Add your caption, notes, or poster description here..."
+    />
+  </div>
+</div>
+
+
       
 
       {imageUrls.length > 0 && (
   <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
     {imageUrls.map((url, index) => (
       <div key={index}>
-        <p className="text-sm text-gray-600">Option {index + 1}</p>
+        <p className="text-sm text-white-600">Option {index + 1}</p>
         <img
           src={url}
           alt={`Generated AI ${index + 1}`}
@@ -123,5 +132,7 @@ export default function Home() {
 
       
     </main>
+
+    </div>
   )
 }
