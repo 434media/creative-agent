@@ -68,11 +68,12 @@ Use bold serif typography resembling TexGyreThermes. Should be fun themes like a
       return NextResponse.json({ error: data.error.message }, { status: 500 });
     }
 
-    const urls = data.data?.map((img: any) => img.url);
+    const urls = data.data?.map((img: { url: string }) => img.url);
     return NextResponse.json({ urls });
 
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("Unhandled error:", err);
-    return NextResponse.json({ error: err.message || "Server error" }, { status: 500 });
+    const message = err instanceof Error ? err.message : "Server error";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
