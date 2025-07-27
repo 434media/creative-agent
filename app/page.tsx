@@ -47,16 +47,11 @@ export default function Home() {
         onChange={(e) => setPrompt(e.target.value)}
         placeholder="Describe your image..."
       />
-      <button
-        onClick={handleSubmit}
-        className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-purple-700"
-      >
-        Create
-      </button>
+     
 
 
     {/*Drop down menu */ }
-      <div className="mt-6 text-left"> 
+      <div className="mt-6 text-left mb-6"> 
   <label className="block mb-1 font-semibold text-sm text-white-700"> 
     What brand of poster is this for?
   </label>
@@ -65,12 +60,19 @@ export default function Home() {
     onChange={(e) => setPosterType(e.target.value)}
     className="border p-2 rounded w-full"
   >
-    <option value="event">Vemos Vamos</option>
-    <option value="concert">DEVSA</option>
-    <option value="academic">TEXMEX</option>
-    <option value="political">434Media</option>
+    <option value="event" style={{ color: "black" }}>Vemos Vamos</option>
+    <option value="concert" style ={{ color: "black" }}>DEVSA</option>
+    <option value="academic" style ={{ color: "black" }}>TEXMEX</option>
+    <option value="political" style ={{ color: "black" }}>434Media</option>
   </select>
 </div>
+{/* moved the button here*/}
+ <button
+        onClick={handleSubmit}
+        className="bg-pink-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+      >
+        Create
+      </button>
 
       {isLoading && (
   <div className="mt-4 w-full h-2 bg-pink-300 rounded overflow-hidden">
@@ -79,6 +81,7 @@ export default function Home() {
       style={{ width: `${progress}%` }}
     />
   </div>
+  
 )}
     <div className="mt-10 flex flex-col items-center justify-center">
   <div className="w-full max-w-2xl min-h-[512px] border-2 border-dashed border-white rounded flex items-center justify-center bg-white/10">
@@ -95,17 +98,29 @@ export default function Home() {
       <p className="text-white text-sm opacity-50">Your generated poster will appear here.</p>
     )}
   </div>
-
-  {/* Text box below the image or placeholder */}
   <div className="w-full max-w-2xl mt-6">
-    <label className="block mb-2 text-sm font-medium text-white text-left">
-      Notes or Description:
-    </label>
-    <textarea
-      className="w-full p-3 rounded border bg-white text-black resize-none h-32"
-      placeholder="Add your caption, notes, or poster description here..."
-    />
+  <div className="flex gap-4 mb-4">
+    <button
+      onClick={handleSubmit}
+      className="flex-1 bg-pink-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+    >
+      Try Again
+    </button>
+    <button
+      onClick={() => alert('Saved')}
+      className="flex-1 bg-pink-600 text-white px-4 py-2 rounded hover:bg-purple-700"
+    >
+      Save
+    </button>
   </div>
+  <label className="block mb-2 text-sm font-medium text-white text-left">
+    Notes or Description:
+  </label>
+  <textarea
+    className="w-full p-3 rounded border bg-white text-black resize-none h-32"
+    placeholder="Add your caption, notes, or poster description here..."
+  />
+</div>
 </div>
 
 
