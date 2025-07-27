@@ -87,10 +87,10 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-300 to-blue-600 text-white">
-<main className="grid grid-cols-1 md:grid-cols-[auto_minmax(0,800px)_auto] gap-8 p-6 md:max-w-[1600px] mx-auto">
+<main className="grid grid-cols-1 md:grid-cols-[auto_minmax(0,800px)_auto] gap-8 p-3 md:max-w-[1500px] mx-auto">
 
         {/* Prompting Tips */}
-        <aside className="w-full md:w-64 shrink-0 space-y-6">
+        <aside className="w-full md:w-80 shrink-0 mt-13">
   <div className="bg-white/10 border border-white/30 rounded p-4">
     <h3 className="text-lg font-semibold mb-3">Prompting Tips</h3>
     <div className="text-sm space-y-4">
@@ -218,8 +218,8 @@ export default function Home() {
         </div>
 
         {/* History Section */}
-        <aside className="w-full md:w-64">
-          <h2 className="text-xl font-semibold mb-4">History</h2>
+        <aside className="w-full mt-10 md:w-64">
+          <h2 className="text-xl font-semibold mb-1">History ^-^ :</h2>
           <div className="space-y-4 max-h-[80vh] overflow-y-auto pr-2">
             {history.map((item, index) => (
               <div key={index} className="bg-white/10 rounded p-2">
