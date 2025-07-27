@@ -14,8 +14,20 @@ Use bold serif typography resembling TexGyreThermes. Should be fun themes like a
       },
       devsa: {
         name: "DEVSA",
-        stylePrompt: ` Use a modern, tech-inspired design.`,
-      },
+        stylePrompt: `
+        Use a modern, tech-inspired photo.
+        
+        Design should be influenced by command-line terminals and code editor UIs.
+        Incorporate visual elements such as:
+        - monospaced fonts (like Consolas, Inconsolata, or Courier)
+        - dark backgrounds with neon green (#00FF00), electric blue (#00BFFF), or gray text
+        - brackets, code snippets, or syntax-like separators (e.g., {}, [], <>)
+        - grid-based layout, clean lines, and digital/techno style accents
+        
+        Avoid serif fonts, analog textures, or retro imagery.
+        The poster should feel sleek, digital, and clearly themed around coding or developer culture.
+        `,
+    },
 
     };
 
@@ -28,9 +40,9 @@ Use bold serif typography resembling TexGyreThermes. Should be fun themes like a
 
     const dallePrompt = `
 
-    Design a single, flat, digital event poster based on the following brand theme: "${brand.name}".
-    Use clean illustration style, bold visual layout, and balanced composition.
-    Make it look like a final poster design ready to be printed.
+    Design a single, flat, picture based on the following brand theme: "${brand.name}".
+    Use bold visual layout, and balanced composition.
+    Make it look like an image desgin design ready to be posted.
 
         Also include this theme Theme: ${prompt}
 

@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fal-ai/client": "^1.6.1",
     "@google/generative-ai": "^0.24.1",
     "next": "15.4.3",
     "nprogress": "^0.2.0",
