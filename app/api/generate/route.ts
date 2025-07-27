@@ -2,15 +2,21 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    const { prompt, type = "default", size = "1024x1792" } = await req.json();
+    const { prompt, type = "default", size = "1024x1024", } = await req.json();
 
     const brandMap: Record<string, { name: string; stylePrompt: string }> = {
       vemosvamos: {
         name: "Vemos Vamos",
         stylePrompt: `
-Use expressive, artistic composition. 
-Favor vibrant colors like dark red (#861804) and cream (#ECEADA).
-Use bold serif typography resembling TexGyreThermes. Should be fun themes like a scrapbook, with a simple and clean layout`,
+Create a clean, scrapbook-inspired layout using real paper textures, cut-out-style elements, and minimalist composition.
+
+Typography should use bold, serif fonts similar to TexGyreTermes or Times New Roman. Use expressive placement—centered or slightly off-axis. Colors should include rich dark red (#861804), cream (#ECEADA), and black.
+
+Incorporate a sense of handmade or scanned physical media—tape edges, uneven cutouts, or shadowed layers—while keeping the overall layout simple and legible.
+
+Avoid digital gloss or gradients. This should feel like a real page, photographed or scanned.
+`
+
       },
       devsa: {
         name: "DEVSA",
@@ -28,8 +34,16 @@ Use bold serif typography resembling TexGyreThermes. Should be fun themes like a
         The poster should feel sleek, digital, and clearly themed around coding or developer culture.
         `,
     },
-
-    };
+    texmex: {
+        name: "TexMex Heritage",
+        stylePrompt: `
+      Create a single black-and-white illustration with a gritty, high-contrast look.
+      Inspired by vintage boxing aesthetics, but with no text or lettering.
+      Focus entirely on texture, motion, and visual intensity — not layout or typography.
+      No titles, no labels, no typefaces. Just raw, rugged visual storytelling in a bold style.
+      `,
+      }
+    }      
 
     const brand = brandMap[type] || {
       name: "Generic Event",
@@ -39,16 +53,24 @@ Use bold serif typography resembling TexGyreThermes. Should be fun themes like a
     
 
     const dallePrompt = `
+Create a bold, full-frame illustrated image for the brand "${brand.name}".
+Theme: ${prompt}
 
-    Design a single, flat, picture based on the following brand theme: "${brand.name}".
-    Use bold visual layout, and balanced composition.
-    Make it look like an image desgin design ready to be posted.
+Visual direction:
+- Apply the following style: ${brand.stylePrompt}
+- Focus on strong composition, texture, and atmosphere.
+- Avoid excessive or detailed text; use minimal or no lettering.
+- Emphasize visual storytelling over layout or typography.
 
-        Also include this theme Theme: ${prompt}
+This should look like a single, standalone poster design — not a framed mockup, not a collage, not a digital ad.
+Do not show multiple layouts, frames, rooms, or photo-mockups.
+No side-by-side variants.
 
-       Make sure to include these Style guidelines:
-        ${brand.stylePrompt}
-    `;
+Output a clean, centered image that captures the spirit of the event.
+`;
+
+    
+
 
     const apiKey = process.env.OPENAI_API_KEY;
     if (!apiKey) {
@@ -69,7 +91,7 @@ Use bold serif typography resembling TexGyreThermes. Should be fun themes like a
         model: "dall-e-3",
         prompt: dallePrompt,
         n: 1,
-        size,
+        size: "1024x1024",
         response_format: "url",
       }),
     });

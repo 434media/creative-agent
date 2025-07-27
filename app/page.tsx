@@ -19,6 +19,9 @@ export default function Home() {
     },
     devsa: {
       label: "DEVSA",
+    },
+    texmex: {
+      label: "TexMex",
     }
   };
   
@@ -34,7 +37,7 @@ export default function Home() {
       const res = await fetch("/api/generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt, type: posterType, size: "1024x1792",
+        body: JSON.stringify({ prompt, type: posterType, size: "1024x1024",
             }),
       });
   
@@ -103,7 +106,7 @@ export default function Home() {
         }}
       />
     ) : (
-      <p className="text-white text-sm opacity-50">Your generated poster will appear here.</p>
+      <p className="text-white text-sm opacity-50">Your amazing poster will soon be.</p>
     )}
   </div>
 
