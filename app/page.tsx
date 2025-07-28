@@ -179,7 +179,8 @@ export default function Home() {
             className="border p-2 rounded w-full mb-4 text-white"
               >
               {Object.entries(posterConfig).map(([key, config]) => (
-              <option key={key} value={key}>
+              <option key={key} value={key}
+              style={{color: "black"}}>
               {config.label}
              </option>
               ))}
